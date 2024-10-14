@@ -17,7 +17,6 @@ const MemoryGame = () => {
 
     const handleCardClick = (index) => {
         if (flippedCard === index || matchedPairs.includes(shuffledData[index].question)) return;
-        
         setFlippedCard(index);
     };
 
@@ -35,7 +34,6 @@ const MemoryGame = () => {
             setCardStatus(prev => ({ ...prev, [flippedCard]: 'incorrect' }));
         }
 
-        // Reset flipped card after a short delay, but keep the status
         setTimeout(() => {
             setFlippedCard(null);
         }, 1000);
@@ -59,15 +57,21 @@ const MemoryGame = () => {
     };
 
     if (shuffledData.length === 0) {
-        return <div>Loading...</div>;
+        return <div className="loading">Loading...</div>;
     }
 
     return (
         <div className="game-container">
-            <h1>Memory Game</h1>
+            <h1 className="game-title">API Memory Game</h1>
             <div className="score-board">
-                <p>Score: {score}</p>
-                <p>Attempts: {totalAttempts}</p>
+                <div className="score-item">
+                    <span className="score-label">Score:</span>
+                    <span className="score-value">{score}</span>
+                </div>
+                <div className="score-item">
+                    <span className="score-label">Attempts:</span>
+                    <span className="score-value">{totalAttempts}</span>
+                </div>
             </div>
             <div className="game-layout">
                 <div className="card-grid">
@@ -85,7 +89,7 @@ const MemoryGame = () => {
                     ))}
                 </div>
                 <div className="answer-section">
-                    <h2>Answers</h2>
+                    <h2 className="answer-title">Answers</h2>
                     <div className="answer-options">
                         {flippedCard !== null ? (
                             shuffledData[flippedCard].answers.map((answer, index) => (
@@ -93,12 +97,13 @@ const MemoryGame = () => {
                                     key={index} 
                                     onClick={() => handleAnswerClick(answer)}
                                     disabled={matchedPairs.includes(shuffledData[flippedCard].question)}
+                                    className="answer-button"
                                 >
                                     {answer}
                                 </button>
                             ))
                         ) : (
-                            <p>Select a card to see answers</p>
+                            <p className="select-card-message">Select a card to see answers</p>
                         )}
                     </div>
                 </div>
