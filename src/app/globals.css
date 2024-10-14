@@ -1,27 +1,178 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.game-container {
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.score-board {
+    margin-bottom: 30px;
+    font-size: 1.2em;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 60px;
+    justify-content: center;
+    padding: 20px;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.card {
+    aspect-ratio: 3 / 2;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    position: relative;
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.card-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    overflow: auto;
+}
+
+.card-front {
+    background-color: #3498db;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.card-back {
+    background-color: #ecf0f1;
+    transform: rotateY(180deg);
+}
+
+.card.correct .card-back {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.card.incorrect .card-back {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.answer-options {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.answer-options button {
+    margin: 8px;
+    padding: 12px 20px;
+    width: 100%;
+    max-width: 400px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.answer-options button:hover {
+    background-color: #e0e0e0;
+}
+
+.game-over {
+    margin-top: 30px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 60px;
+        padding: 10px;
+    }
+    
+    .card-front, .card-back {
+        font-size: 14px;
+        padding: 15px;
+    }
+}
+
+.game-layout {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.card-grid {
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 50px;
+}
+
+.answer-section {
+    flex: 1;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.answer-section h2 {
+    margin-bottom: 15px;
+}
+
+.answer-options {
+    display: flex;
+    flex-direction: column;
+}
+
+.answer-options button {
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.answer-options button:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.answer-options button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .game-layout {
+        flex-direction: column;
+    }
 }
